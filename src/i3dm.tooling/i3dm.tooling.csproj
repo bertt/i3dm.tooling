@@ -1,8 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1</Version>
+    <Authors>Bert Temme</Authors>
+    <Description>Tooling for pack/unpack/info on i3dm file</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/bertt/i3dm.tooling</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bertt/i3dm.tooling</RepositoryUrl>
+    <PackageReleaseNotes>initial release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
