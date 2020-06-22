@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "i3dm.tooling": {
+      "commandName": "Project",
+      "commandLineArgs": "-i tree.i3dm"
+    }
+  }
+}

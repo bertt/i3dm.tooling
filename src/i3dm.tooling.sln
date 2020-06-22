@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "i3dm.tooling", "i3dm.tooling\i3dm.tooling.csproj", "{A3BC3752-8BD3-4283-9253-D28AC7974213}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{6C91F64E-C822-4E0A-B667-0AF26AA8E743}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3BC3752-8BD3-4283-9253-D28AC7974213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3BC3752-8BD3-4283-9253-D28AC7974213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3BC3752-8BD3-4283-9253-D28AC7974213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3BC3752-8BD3-4283-9253-D28AC7974213}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FDC746CF-AF35-45D4-911A-CE457D1B9A0D}
+	EndGlobalSection
+EndGlobal
