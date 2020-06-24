@@ -1,4 +1,5 @@
 # i3dm.tooling
+
 tooling for instanced 3D Tiles (i3dm)
 
 Global tooling for handling i3dm files, like getting information about the i3dm (info)
@@ -68,55 +69,59 @@ $ dotnet tool update -g i3dm.tooling
 
 ## Running
 
-1] Command Info i3dm_file gives header info about i3dm file
+### Info
+
+Command Info i3dm_file gives header info about i3dm file
 
 Example:
 
 ```
-$ i3dm info -i test.i3dm
+$ i3dm info -i tree.i3dm
 
+Action: Info
+i3dm file: tree.i3dm
 i3dm header version: 1
+i3dm GltfFormat: 1
 i3dm header magic: i3dm
-i3dm header bytelength: 69658
-i3dm header featuretablejson length: 20
-i3dm header batchtablejson length: 521
-Batch table json: {"hoehe":["17.386000000000024","18.34499999999997","18.58699999999999","21.860000000000014","10.168000000000006","20.584000000000003","19.70599999999996","19.817000000000007","20.000999999999976","16.577999999999975","17.865999999999985","17.745000000000005"],"citygml_class":["BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01"],"surfaceType":["roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof"],"Region":["5","5","5","5","5","5","5","5","5","5","5","5"]}
-Feature table json: {"BATCH_LENGTH":12}
+i3dm header bytelength: 282072
+i3dm header featuretablejson length: 72
+i3dm header batchtablejson length: 88
+Batch table json: {"Height":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]}
+Feature table json: {"INSTANCES_LENGTH":25,"EAST_NORTH_UP":true,"POSITION":{"byteOffset":0}}
+positions: <1214947.2, -4736379, 4081540.8>,<1214986, -4736369, 4081540.8>,<1215024.8, -4736359, 4081540.8>,<1215063.5, -4736349.5, 4081540.8>,<1215102.2, -4736339.5, 4081540.8>,<1214940.9, -4736354, 4081571.5>,<1214979.6, -4736344, 4081571.5>,<1215018.4, -4736334.5, 4081571.5>,<1215057.1, -4736324.5, 4081571.5>,<1215095.9, -4736314.5, 4081571.5>,<1214934.5, -4736329, 4081602>,<1214973.1, -4736319.5, 4081602>,<1215011.9, -4736309.5, 4081602>,<1215050.6, -4736299.5, 4081602>,<1215089.4, -4736289.5, 4081602>,<1214928, -4736304.5, 4081632.8>,<1214966.8, -4736294.5, 4081632.8>,<1215005.5, -4736284.5, 4081632.8>,<1215044.2, -4736274.5, 4081632.8>,<1215083, -4736264.5, 4081632.8>,<1214921.6, -4736279.5, 4081663.2>,<1214960.4, -4736269.5, 4081663.2>,<1214999.1, -4736259.5, 4081663.2>,<1215037.9, -4736249.5, 4081663.2>,<1215076.6, -4736239.5, 4081663.2>
 glTF model is loaded
+glTF generator: COLLADA2GLTF
+glTF version:2.0
+glTF primitives: 2
+glTF extensions used:
+glTF extensions required:
+glTF primitive mode: TRIANGLES
 ```
 
-2] Command unpack -i i3dm_filename 
+### Unpack
+
+Command unpack -i i3dm_filename 
 
 unpacks a i3dm file to GLB format and creates .batch file when containing batchTableJson information
 
 Example:
 
 ```
-$ i3dm unpack -i test.i3dm
+$ i3dm unpack -i tree.i3dm
 
-```
 Action: Unpack
-Input: 1.i3dm
+Input: tree.i3dm
 i3dm version: 1
-glTF asset generator: py3dtiles
+glTF asset generator: COLLADA2GLTF
 glTF version: 2.0
-Buffer bytes: 167832
-Glb created: 1.glb
-batch file created: 1.batch
+Glb created: tree.glb
+batch file created: tree.batch
 ```
 
-3] Command pack -i glb_filename to pack a glb to i3dm file and importing batchTableJson when .batch file exists.
+### Pack
 
-Example:
+todo 
 
-```
-$ i3dm pack -i test.glb
-
-Action: Pack
-Input: 1.i3dm
-Input batch file: 1.batch
-i3dm created output.i3dm
-```
 
 ## Building from source
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Text;
 
 namespace i3dm.tooling
 {
@@ -11,17 +12,29 @@ namespace i3dm.tooling
     {
         static void Main(string[] args)
         {
-            // Parser.Default.ParseArguments<PackOptions, UnpackOptions, InfoOptions>(args).WithParsed(o =>
-            Parser.Default.ParseArguments<InfoOptions>(args).WithParsed(o =>
+            Parser.Default.ParseArguments<PackOptions, UnpackOptions, InfoOptions>(args).WithParsed(o =>
             {
                 switch (o)
                 {
                     case InfoOptions options:
                         Info(options);
                         break;
+                    case PackOptions options:
+                        Pack(options);
+                        break;
+                    case UnpackOptions options:
+                        Unpack(options);
+                        break;
                 }
             });
 
+        }
+
+        private static void Pack(PackOptions options)
+        {
+            // todo: implement this one
+            // todo: implement this one
+            throw new NotImplementedException();
         }
 
         static void Info(InfoOptions o)
@@ -91,5 +104,51 @@ namespace i3dm.tooling
                 Console.WriteLine(name + string.Join(',', vectors));
             }
         }
+
+
+        static void Unpack(UnpackOptions o)
+        {
+            Console.WriteLine($"Action: Unpack");
+            Console.WriteLine($"Input: {o.Input}");
+            var f = File.OpenRead(o.Input);
+            var i3dm = I3dmReader.ReadI3dm(f);
+            Console.WriteLine("i3dm version: " + i3dm.I3dmHeader.Version);
+            var stream = new MemoryStream(i3dm.GlbData);
+            try
+            {
+                var gltf = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+
+                Console.WriteLine("glTF asset generator: " + gltf.Asset.Generator);
+                Console.WriteLine("glTF version: " + gltf.Asset.Version);
+                var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
+                var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
+
+                if (File.Exists(glbfile) && !o.Force)
+                {
+                    Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
+                }
+                else
+                {
+                    gltf.SaveGLB(glbfile);
+                    File.WriteAllBytes(glbfile, i3dm.GlbData);
+                    Console.WriteLine($"Glb created: {glbfile}");
+                    if (i3dm.BatchTableJson != String.Empty)
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append(i3dm.FeatureTableJson);
+                        sb.AppendLine();
+                        sb.Append(i3dm.BatchTableJson);
+                        File.WriteAllText(batchfile, sb.ToString());
+                        Console.WriteLine($"batch file created: {batchfile}");
+                    }
+                }
+            }
+            catch (InvalidDataException ex)
+            {
+                Console.WriteLine("glTF version not supported.");
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
