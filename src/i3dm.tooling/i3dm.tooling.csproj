@@ -7,13 +7,13 @@
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1</Version>
+    <Version>1.1.1</Version>
     <Authors>Bert Temme</Authors>
     <Description>Tooling for pack/unpack/info on i3dm file</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bertt/i3dm.tooling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bertt/i3dm.tooling</RepositoryUrl>
-    <PackageReleaseNotes>initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>formating console messages</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="barrel.i3dm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="tree.i3dm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
