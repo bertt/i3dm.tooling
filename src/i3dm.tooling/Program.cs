@@ -46,11 +46,9 @@ namespace i3dm.tooling
             Console.WriteLine("i3dm header version: " + i3dm.I3dmHeader.Version);
             Console.WriteLine("i3dm GltfFormat: " + i3dm.I3dmHeader.GltfFormat);
             Console.WriteLine("i3dm header magic: " + i3dm.I3dmHeader.Magic);
-            Console.WriteLine("i3dm header bytelength: " + i3dm.I3dmHeader.ByteLength);
-            Console.WriteLine("i3dm header featuretablejson length: " + i3dm.I3dmHeader.FeatureTableJsonByteLength);
-            Console.WriteLine("i3dm header batchtablejson length: " + i3dm.I3dmHeader.BatchTableJsonByteLength);
-            Console.WriteLine("Batch table json: " + i3dm.BatchTableJson);
-            Console.WriteLine("Feature table json: " + i3dm.FeatureTableJson);
+            Console.WriteLine("i3dm featuretable json: " + i3dm.FeatureTableJson);
+            Console.WriteLine("i3dm instances length: " + i3dm.FeatureTable.InstancesLength);
+            Console.WriteLine("i3dm batch table json: " + i3dm.BatchTableJson);
             PrintVector3(i3dm.FeatureTable.Positions, "positions: ");
             PrintVector3(i3dm.FeatureTable.NormalUps, "normal ups: ");
             PrintVector3(i3dm.FeatureTable.NormalRights, "normal rights: ");
