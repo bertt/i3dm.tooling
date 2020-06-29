@@ -30,6 +30,4 @@ namespace i3dm.tooling
         [Option('f', "force", Required = false, Default = false, HelpText = "force overwrite output file")]
         public bool Force { get; set; }
     }
-
-
 }

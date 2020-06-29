@@ -7,7 +7,7 @@
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.2</Version>
     <Authors>Bert Temme</Authors>
     <Description>Tooling for pack/unpack/info on i3dm file</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="i3dm.tile" Version="0.1.0" />
+    <PackageReference Include="i3dm.tile" Version="0.3.0" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0018" />
   </ItemGroup>
 
