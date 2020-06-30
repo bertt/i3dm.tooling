@@ -40,6 +40,7 @@ namespace i3dm.tooling
         {
             Console.WriteLine($"Action: Info");
             Console.WriteLine("i3dm file: " + o.Input);
+            Console.WriteLine("Size: " + new FileInfo(o.Input).Length);
             var f = File.OpenRead(o.Input);
             var i3dm = I3dmReader.Read(f);
             Console.WriteLine("i3dm header version: " + i3dm.I3dmHeader.Version);

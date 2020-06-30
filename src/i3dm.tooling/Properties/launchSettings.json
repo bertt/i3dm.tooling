@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i barrel.i3dm"
+      "commandLineArgs": "info -i D:\\dev\\github.com\\bertt\\cesium_3dtiles_samples\\samples\\instanced\\tree_test.i3dm"
     }
   }
 }
