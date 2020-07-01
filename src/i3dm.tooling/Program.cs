@@ -46,9 +46,9 @@ namespace i3dm.tooling
             Console.WriteLine("i3dm header version: " + i3dm.I3dmHeader.Version);
             Console.WriteLine("i3dm GltfFormat: " + i3dm.I3dmHeader.GltfFormat);
             Console.WriteLine("i3dm header magic: " + i3dm.I3dmHeader.Magic);
-            Console.WriteLine("i3dm featuretable json: " + i3dm.FeatureTableJson);
+            Console.WriteLine("i3dm featuretable json: '" + i3dm.FeatureTableJson+"'");
             Console.WriteLine("i3dm instances length: " + i3dm.FeatureTable.InstancesLength);
-            Console.WriteLine("i3dm batch table json: " + i3dm.BatchTableJson);
+            Console.WriteLine("i3dm batch table json: '" + i3dm.BatchTableJson+"'");
             if(i3dm.FeatureTable.BatchIdOffset!=null && i3dm.FeatureTable.BatchIdOffset.componentType != null)
             {
                 Console.WriteLine("i3dm batchId component type: " + i3dm.FeatureTable.BatchIdOffset.componentType);
@@ -57,6 +57,20 @@ namespace i3dm.tooling
             if (i3dm.RtcCenter != Vector3.Zero)
             {
                 Console.WriteLine("i3dm rtc_center: " + i3dm.RtcCenter);
+            }
+
+            var validationErrors = i3dm.I3dmHeader.Validate();
+            if(validationErrors.Count > 0)
+            {
+                Console.WriteLine($"Validation check: {validationErrors.Count} errors");
+                foreach (var error in validationErrors)
+                {
+                    Console.WriteLine(error);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Validation check: no errors");
             }
 
             PrintItems<Vector3>(i3dm.Positions, "positions: ");
