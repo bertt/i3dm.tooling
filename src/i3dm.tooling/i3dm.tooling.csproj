@@ -7,13 +7,15 @@
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.3</Version>
+    <Version>1.4</Version>
     <Authors>Bert Temme</Authors>
     <Description>Tooling for pack/unpack/info on i3dm file</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bertt/i3dm.tooling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bertt/i3dm.tooling</RepositoryUrl>
-    <PackageReleaseNotes>formating console messages</PackageReleaseNotes>
+    <PackageReleaseNotes>add batchtablejson optin + limit to 5 items</PackageReleaseNotes>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
