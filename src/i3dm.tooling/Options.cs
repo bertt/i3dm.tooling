@@ -7,6 +7,8 @@ namespace i3dm.tooling
     {
         [Option('i', "input", Required = true, HelpText = "Input path of the .i3dm")]
         public string Input { get; set; }
+        [Option('b', "batchtablejson", Required = false, Default = false, HelpText = "display batchTableJSON")]
+        public bool ShowBatchTableJson { get; set; }
     }
 
     [Verb("pack", HelpText = "pack glb to b3dm")]

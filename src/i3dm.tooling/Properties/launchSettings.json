@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i D:\\dev\\github.com\\bertt\\cesium_3dtiles_samples\\samples\\instanced\\tree.i3dm"
+      "commandLineArgs": "info -i C:\\Users\\bertt\\Downloads\\mapbox_seats_white.i3dm -b"
     }
   }
 }

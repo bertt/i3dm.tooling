@@ -3,6 +3,7 @@ using I3dm.Tile;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 
@@ -48,8 +49,11 @@ namespace i3dm.tooling
             Console.WriteLine("i3dm header magic: " + i3dm.I3dmHeader.Magic);
             Console.WriteLine("i3dm featuretable json: '" + i3dm.FeatureTableJson+"'");
             Console.WriteLine("i3dm instances length: " + i3dm.FeatureTable.InstancesLength);
-            Console.WriteLine("i3dm batch table json: '" + i3dm.BatchTableJson+"'");
-            if(i3dm.FeatureTable.BatchIdOffset!=null && i3dm.FeatureTable.BatchIdOffset.componentType != null)
+            if (o.ShowBatchTableJson)
+            {
+                Console.WriteLine("i3dm batch table json: '" + i3dm.BatchTableJson + "'");
+            }
+            if (i3dm.FeatureTable.BatchIdOffset!=null && i3dm.FeatureTable.BatchIdOffset.componentType != null)
             {
                 Console.WriteLine("i3dm batchId component type: " + i3dm.FeatureTable.BatchIdOffset.componentType);
             }
@@ -73,10 +77,10 @@ namespace i3dm.tooling
                 Console.WriteLine("Validation check: no errors");
             }
 
-            PrintItems<Vector3>(i3dm.Positions, "positions: ");
-            PrintItems<Vector3>(i3dm.NormalUps, "normal ups: ");
-            PrintItems<Vector3>(i3dm.NormalRights, "normal rights: ");
-            PrintItems<Vector3>(i3dm.ScaleNonUniforms, "Scale non-uniform: ");
+            PrintItems<Vector3>(i3dm.Positions, "positions ");
+            PrintItems<Vector3>(i3dm.NormalUps, "normal ups ");
+            PrintItems<Vector3>(i3dm.NormalRights, "normal rights ");
+            PrintItems<Vector3>(i3dm.ScaleNonUniforms, "Scale non-uniform ");
             PrintItems<float>(i3dm.Scales, "Scales");
 
             PrintItems<int>(i3dm.BatchIds, "Batch ids: ");
@@ -123,7 +127,11 @@ namespace i3dm.tooling
         {
             if (items != null)
             {
-                Console.WriteLine(name + string.Join(',', items));
+                var extra = items.Count > 5? "(first 5)": String.Empty;
+                
+                var firstfive = items.Take(5);
+
+                Console.WriteLine(name + extra + ": " + string.Join(',', firstfive));
             }
             else
             {
