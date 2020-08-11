@@ -26,6 +26,8 @@ Info options:
 
 ```
   -i, --input    Required. Input path of the .i3dm
+
+  -b, --batchtablejson (Default: false) display batchTableJSON
 ```
 
 Pack options:
