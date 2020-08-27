@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i C:\\Users\\bertt\\Downloads\\mapbox_seats_white.i3dm -b"
+      "commandLineArgs": "info -i C:\\Users\\bertt\\Downloads\\instancedRTC.i3dm "
     }
   }
 }

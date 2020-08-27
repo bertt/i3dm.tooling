@@ -57,12 +57,10 @@ namespace i3dm.tooling
             {
                 Console.WriteLine("i3dm batchId component type: " + i3dm.FeatureTable.BatchIdOffset.componentType);
             }
-
-            if (i3dm.RtcCenter != Vector3.Zero)
+            if (i3dm.FeatureTable.RtcCenter != null)
             {
-                Console.WriteLine("i3dm rtc_center: " + i3dm.RtcCenter);
+                Console.WriteLine("i3dm RTC_CENTER: " + i3dm.FeatureTable.RtcCenter);
             }
-
             var validationErrors = i3dm.I3dmHeader.Validate();
             if(validationErrors.Count > 0)
             {
