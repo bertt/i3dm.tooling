@@ -1,10 +1,10 @@
 ﻿using CommandLine;
 using I3dm.Tile;
+using SharpGLTF.Schema2;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 
 namespace i3dm.tooling
@@ -86,11 +86,24 @@ namespace i3dm.tooling
             var stream = new MemoryStream(i3dm.GlbData);
             try
             {
-                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+                var glb = ModelRoot.ReadGLB(stream);
                 Console.WriteLine("glTF model is loaded");
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
                 Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
+                var triangles = Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
+                Console.WriteLine("glTF triangles: " + triangles.Count);
+
+                var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
+                var xmin = (from p in points select p.X).Min();
+                var xmax = (from p in points select p.X).Max();
+                var ymin = (from p in points select p.Y).Min();
+                var ymax = (from p in points select p.Y).Max();
+                var zmin = (from p in points select p.Z).Min();
+                var zmax = (from p in points select p.Z).Max();
+
+                Console.WriteLine($"Bounding box vertices (xmin, ymin, zmin, xmax, ymax, zmax): {xmin}, {ymin}, {zmin}, {xmax}, {ymax}, {zmax}");
+
                 if (glb.ExtensionsUsed != null)
                 {
                     Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));

@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i barrel.i3dm "
+      "commandLineArgs": "info -i C:\\Users\\bertt\\Downloads\\trees.i3dm"
     }
   }
 }
