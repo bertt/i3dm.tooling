@@ -134,6 +134,81 @@ namespace i3dm.tooling
             f.Dispose();
         }
 
+        static void Unpack(UnpackOptions o)
+        {
+            Console.WriteLine($"Action: Unpack");
+            Console.WriteLine($"Input: {o.Input}");
+            var f = File.OpenRead(o.Input);
+            var i3dm = I3dmReader.Read(f);
+            Console.WriteLine("i3dm version: " + i3dm.I3dmHeader.Version);
+            var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
+            var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch.csv" : o.Output);
+            var positionsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".positions.csv" : o.Output);
+            var normal_upsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".normal_ups.csv" : o.Output);
+            var normal_rightsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".normal_rights.csv" : o.Output);
+            var scale_non_uniformsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".scale__non_uniforms.csv" : o.Output);
+            var scalesfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".scales.csv" : o.Output);
+
+            if (File.Exists(glbfile) && !o.Force)
+            {
+                Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
+            }
+            else
+            {
+                File.WriteAllBytes(glbfile, i3dm.GlbData);
+                Console.WriteLine($"Glb created: {glbfile}");
+                SaveItems(i3dm.Positions, positionsfile);
+                Console.WriteLine($"Positions file created: {positionsfile}");
+
+                if (i3dm.NormalUps != null)
+                {
+                    SaveItems(i3dm.NormalUps, normal_upsfile);
+                    Console.WriteLine($"normalups file created: {normal_upsfile}");
+                }
+                if (i3dm.NormalRights != null)
+                {
+                    SaveItems(i3dm.NormalRights, normal_rightsfile);
+                    Console.WriteLine($"normalrights file created: {normal_rightsfile}");
+                }
+                if (i3dm.ScaleNonUniforms!= null)
+                {
+                    SaveItems(i3dm.ScaleNonUniforms, scale_non_uniformsfile);
+                    Console.WriteLine($"scale_non_uniforms file created: {scale_non_uniformsfile}");
+                }
+                if (i3dm.Scales != null)
+                {
+                    SaveItems(i3dm.Scales, scalesfile); ;
+                    Console.WriteLine($"scales file created: {scalesfile}");
+                }
+
+
+                if (i3dm.BatchTableJson != String.Empty)
+                {
+                    var sb = new StringBuilder();
+                    sb.Append(i3dm.FeatureTableJson);
+                    sb.AppendLine();
+                    sb.Append(i3dm.BatchTableJson);
+                    File.WriteAllText(batchfile, sb.ToString());
+                    Console.WriteLine($"batch file created: {batchfile}");
+                }
+            }
+        }
+
+
+        private static void SaveItems<T>(List<T> items, string filename)
+        {
+            var w = new StreamWriter(filename);
+
+            foreach (var item in items)
+            {
+                var s = item.ToString();
+                s= s.Trim('<').Trim('>');
+                w.WriteLine(s);
+            }
+            w.Flush();
+        }
+
+
         private static void PrintItems<T>(List<T> items, string name)
         {
             if (items != null)
@@ -150,34 +225,5 @@ namespace i3dm.tooling
             }
         }
 
-        static void Unpack(UnpackOptions o)
-        {
-            Console.WriteLine($"Action: Unpack");
-            Console.WriteLine($"Input: {o.Input}");
-            var f = File.OpenRead(o.Input);
-            var i3dm = I3dmReader.Read(f);
-            Console.WriteLine("i3dm version: " + i3dm.I3dmHeader.Version);
-            var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-            var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
-
-            if (File.Exists(glbfile) && !o.Force)
-            {
-                Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
-            }
-            else
-            {
-                File.WriteAllBytes(glbfile, i3dm.GlbData);
-                Console.WriteLine($"Glb created: {glbfile}");
-                if (i3dm.BatchTableJson != String.Empty)
-                {
-                    var sb = new StringBuilder();
-                    sb.Append(i3dm.FeatureTableJson);
-                    sb.AppendLine();
-                    sb.Append(i3dm.BatchTableJson);
-                    File.WriteAllText(batchfile, sb.ToString());
-                    Console.WriteLine($"batch file created: {batchfile}");
-                }
-            }
-        }
     }
 }

@@ -104,7 +104,8 @@ glTF primitive mode: TRIANGLES
 
 Command unpack -i i3dm_filename 
 
-unpacks a i3dm file to GLB format and creates .batch file when containing batchTableJson information
+unpacks a i3dm file to GLB format and creates csv files with .batch file when containing batch information, 
+positions, normal_ups, normal_rights, scale_non_uniforms, scales.
 
 Example:
 
@@ -114,16 +115,15 @@ $ i3dm unpack -i tree.i3dm
 Action: Unpack
 Input: tree.i3dm
 i3dm version: 1
-glTF asset generator: COLLADA2GLTF
-glTF version: 2.0
 Glb created: tree.glb
-batch file created: tree.batch
-```
+Positions file created: tree.positions.csv
+normalups file created: tree.normal_ups.csv
+normalrights file created: tree.normal_rights.csv
+batch file created: tree.batch.csv```
 
 ### Pack
 
 todo 
-
 
 ## Building from source
 
