@@ -5,8 +5,6 @@ tooling for instanced 3D Tiles (i3dm)
 Global tooling for handling i3dm files, like getting information about the i3dm (info), pack (create i3dm from glb and instance metadata) and 
 unpack (extract glb and instance metadata).
 
-todo: creating i3dm from glb file and csv's for instance metadata.
-
 ## API
 
 Verbs:
@@ -138,7 +136,9 @@ tree.batch.csv contains a json file with instance metadata like:
 
 ### Pack
 
-todo 
+Command pack -i <glb_file> 
+
+packs a glb file to i3dm. Reads featuretable, batchtable, positions, normal_ups, normal_rights, scale_non_uniforms, scales from csv files with same prefix name as glb when available.
 
 ## Building from source
 
