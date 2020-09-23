@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Numerics;
 
 namespace i3dm.tooling
 {
@@ -33,8 +33,71 @@ namespace i3dm.tooling
 
         private static void Pack(PackOptions options)
         {
-            // todo: implement this one
-            throw new NotImplementedException();
+            Console.WriteLine($"Action: Pack");
+            Console.WriteLine($"Input: {options.Input}");
+            var f = File.ReadAllBytes(options.Input);
+            var batchTableJsonFile = Path.GetFileNameWithoutExtension(options.Input) + ".batch.csv";
+            var featureTableJsonFile = Path.GetFileNameWithoutExtension(options.Input) + ".feature.csv";
+            var positionsFile = Path.GetFileNameWithoutExtension(options.Input) + ".positions.csv";
+            var normal_upsfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + ".normal_ups.csv" : options.Output);
+            var normal_rightsfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + ".normal_rights.csv" : options.Output);
+            var scale_non_uniformsfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + ".scale_non_uniforms.csv" : options.Output);
+            var scalesfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + ".scales.csv" : options.Output);
+
+            var positions = ReadVectors(positionsFile);
+
+            var i3dm = new I3dm.Tile.I3dm(positions, f);
+
+            if (File.Exists(batchTableJsonFile))
+            {
+                Console.WriteLine($"Input batchtable json file: {batchTableJsonFile}");
+                var batchTableJson = File.ReadAllText(batchTableJsonFile);
+                i3dm.BatchTableJson = batchTableJson;
+            }
+            if (File.Exists(featureTableJsonFile))
+            {
+                Console.WriteLine($"Input featureTable json file: {featureTableJsonFile}");
+                var featureTableJson = File.ReadAllText(featureTableJsonFile);
+                i3dm.FeatureTableJson = featureTableJson;
+            }
+            if (File.Exists(normal_upsfile))
+            {
+                Console.WriteLine($"Input normal_upsfile file: {normal_upsfile}");
+                var normal_ups = ReadVectors(normal_upsfile);
+                i3dm.NormalUps= normal_ups;
+            }
+            if (File.Exists(normal_rightsfile))
+            {
+                Console.WriteLine($"Input normal_rightsfile file: {normal_rightsfile}");
+                var normal_rights = ReadVectors(normal_rightsfile);
+                i3dm.NormalRights = normal_rights;
+            }
+            if (File.Exists(scale_non_uniformsfile))
+            {
+                Console.WriteLine($"Input scale_non_uniforms file: {scale_non_uniformsfile}");
+                var scale_non_uniforms = ReadVectors(scale_non_uniformsfile);
+                i3dm.ScaleNonUniforms = scale_non_uniforms;
+            }
+            if (File.Exists(scalesfile))
+            {
+                Console.WriteLine($"Input scales file: {scalesfile}");
+                var scales = ReadFloats(scalesfile);
+                i3dm.Scales = scales;
+            }
+
+
+            var i3dmfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + "_new.i3dm" : options.Output);
+
+            if (File.Exists(i3dmfile) && !options.Force)
+            {
+                Console.WriteLine($"File {i3dmfile} already exists. Specify -f or --force to overwrite existing files.");
+            }
+            else
+            {
+                I3dmWriter.Write(i3dmfile, i3dm);
+                Console.WriteLine("I3dm created " + i3dmfile);
+            }
+
         }
 
         static void Info(InfoOptions o)
@@ -52,6 +115,10 @@ namespace i3dm.tooling
             if (o.ShowBatchTableJson)
             {
                 Console.WriteLine("i3dm batch table json: '" + i3dm.BatchTableJson + "'");
+            }
+            else
+            {
+                Console.WriteLine("i3dm batch table json not shown (use ShowBatchTableJson)");
             }
             if (i3dm.FeatureTable.BatchIdOffset != null && i3dm.FeatureTable.BatchIdOffset.componentType != null)
             {
@@ -143,10 +210,12 @@ namespace i3dm.tooling
             Console.WriteLine("i3dm version: " + i3dm.I3dmHeader.Version);
             var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
             var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch.csv" : o.Output);
+            var featurefile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".feature.csv" : o.Output);
+
             var positionsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".positions.csv" : o.Output);
             var normal_upsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".normal_ups.csv" : o.Output);
             var normal_rightsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".normal_rights.csv" : o.Output);
-            var scale_non_uniformsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".scale__non_uniforms.csv" : o.Output);
+            var scale_non_uniformsfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".scale_non_uniforms.csv" : o.Output);
             var scalesfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".scales.csv" : o.Output);
 
             if (File.Exists(glbfile) && !o.Force)
@@ -181,15 +250,15 @@ namespace i3dm.tooling
                     Console.WriteLine($"scales file created: {scalesfile}");
                 }
 
-
                 if (i3dm.BatchTableJson != String.Empty)
                 {
-                    var sb = new StringBuilder();
-                    sb.Append(i3dm.FeatureTableJson);
-                    sb.AppendLine();
-                    sb.Append(i3dm.BatchTableJson);
-                    File.WriteAllText(batchfile, sb.ToString());
+                    File.WriteAllText(batchfile, i3dm.BatchTableJson);
                     Console.WriteLine($"batch file created: {batchfile}");
+                }
+                if (i3dm.FeatureTableJson!= String.Empty)
+                {
+                    File.WriteAllText(featurefile, i3dm.FeatureTableJson);
+                    Console.WriteLine($"feature file created: {featurefile}");
                 }
             }
         }
@@ -224,6 +293,41 @@ namespace i3dm.tooling
                 Console.WriteLine(name + ": -");
             }
         }
+
+
+        private static List<float> ReadFloats(string file)
+        {
+            var sr = new StreamReader(file);
+            string data;
+            var floats = new List<float>();
+            while ((data = sr.ReadLine()) != null)
+            {
+                var read = float.Parse(data);
+                floats.Add(read);
+            }
+            sr.Close();
+            return floats;
+        }
+
+        private static List<Vector3> ReadVectors(string file)
+        {
+            var sr = new StreamReader(file);
+            string data;
+            var vectors = new List<Vector3>();
+            while ((data = sr.ReadLine()) != null)
+            {
+                var read = data.Split(',');
+                var x = float.Parse(read[0]);
+                var y = float.Parse(read[1]);
+                var z = float.Parse(read[2]);
+                var v = new Vector3(x, y, z);
+                vectors.Add(v);
+            }
+            sr.Close();
+            return vectors;
+        }
+
+
 
     }
 }

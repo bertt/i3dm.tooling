@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "unpack -i trees.i3dm -f"
+      "commandLineArgs": "info -i trees_new.i3dm"
     }
   }
 }

@@ -2,9 +2,10 @@
 
 tooling for instanced 3D Tiles (i3dm)
 
-Global tooling for handling i3dm files, like getting information about the i3dm (info)
+Global tooling for handling i3dm files, like getting information about the i3dm (info), pack (create i3dm from glb and instance metadata) and 
+unpack (extract glb and instance metadata).
 
-todo: add support for unpacking to glb (unpack) or creating i3dm from glb file (pack).
+todo: creating i3dm from glb file and csv's for instance metadata.
 
 ## API
 
@@ -119,7 +120,21 @@ Glb created: tree.glb
 Positions file created: tree.positions.csv
 normalups file created: tree.normal_ups.csv
 normalrights file created: tree.normal_rights.csv
-batch file created: tree.batch.csv```
+batch file created: tree.batch.csv
+feature file created: tree.feature.csv
+```
+
+tree.feature.csv contains a json file like:
+
+```
+{"INSTANCES_LENGTH":2326,"POSITION":{"byteOffset":0},"NORMAL_UP":{"byteOffset":27912},"NORMAL_RIGHT":{"byteOffset":55824},"EAST_NORTH_UP":true} 
+```
+
+tree.batch.csv contains a json file with instance metadata like:
+
+```
+{"Tree":["1","2","3",...,"2326"]}
+```
 
 ### Pack
 
