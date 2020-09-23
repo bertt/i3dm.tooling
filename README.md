@@ -138,8 +138,18 @@ tree.batch.csv contains a json file with instance metadata like:
 
 Command pack -i <glb_file> 
 
-packs a glb file to i3dm. Reads featuretable, batchtable, positions, normal_ups, normal_rights, scale_non_uniforms, scales from csv files with same prefix name as glb when available.
+packs a glb file to i3dm. Reads featuretable, batchtable, positions, normal_ups, normal_rights, scale_non_uniforms, scales from 
+csv files with same prefix name as glb when available.
 
+```
+Action: Pack
+Input: trees.glb
+Input batchtable json file: trees.batch.csv
+Input featureTable json file: trees.feature.csv
+Input normal_upsfile file: trees.normal_ups.csv
+Input normal_rightsfile file: trees.normal_rights.csv
+I3dm created trees.i3dm
+```
 ## Building from source
 
 ```

@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i trees_new.i3dm"
+      "commandLineArgs": "pack -i trees.glb"
     }
   }
 }
