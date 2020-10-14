@@ -118,7 +118,7 @@ namespace i3dm.tooling.Commands
             f.Dispose();
         }
 
-        public static void PrintItems<T>(List<T> items, string name)
+        private void PrintItems<T>(List<T> items, string name)
         {
             if (items != null)
             {
