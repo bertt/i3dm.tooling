@@ -7,20 +7,20 @@
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.6</Version>
+    <Version>1.7</Version>
     <Authors>Bert Temme</Authors>
     <Description>Tooling for pack/unpack/info on i3dm file</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bertt/i3dm.tooling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bertt/i3dm.tooling</RepositoryUrl>
-    <PackageReleaseNotes>add pack option</PackageReleaseNotes>
-    <AssemblyVersion>1.6.0.0</AssemblyVersion>
-    <FileVersion>1.6.0.0</FileVersion>
+    <PackageReleaseNotes>add i3dm external uri support</PackageReleaseNotes>
+    <AssemblyVersion>1.7.0.0</AssemblyVersion>
+    <FileVersion>1.7.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="i3dm.tile" Version="0.3.2" />
+    <PackageReference Include="i3dm.tile" Version="0.3.3" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0019" />
   </ItemGroup>
 

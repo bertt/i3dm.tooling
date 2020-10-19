@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "pack -i trees.glb"
+      "commandLineArgs": "info -i D:\\aaa\\tree_invalid.i3dm"
     }
   }
 }

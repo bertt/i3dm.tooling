@@ -35,7 +35,6 @@ namespace i3dm.tooling
         {
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {options.Input}");
-            var f = File.ReadAllBytes(options.Input);
             var batchTableJsonFile = Path.GetFileNameWithoutExtension(options.Input) + ".batch.csv";
             var featureTableJsonFile = Path.GetFileNameWithoutExtension(options.Input) + ".feature.csv";
             var positionsFile = Path.GetFileNameWithoutExtension(options.Input) + ".positions.csv";
@@ -46,7 +45,9 @@ namespace i3dm.tooling
 
             var positions = ReadVectors(positionsFile);
 
-            var i3dm = new I3dm.Tile.I3dm(positions, f);
+            var i3dm = Uri.IsWellFormedUriString(options.Input, UriKind.Absolute)?
+                new I3dm.Tile.I3dm(positions, options.Input):
+                new I3dm.Tile.I3dm(positions, File.ReadAllBytes(options.Input));
 
             if (File.Exists(batchTableJsonFile))
             {
@@ -85,7 +86,6 @@ namespace i3dm.tooling
                 i3dm.Scales = scales;
             }
 
-
             var i3dmfile = (options.Output == string.Empty ? Path.GetFileNameWithoutExtension(options.Input) + "_new.i3dm" : options.Output);
 
             if (File.Exists(i3dmfile) && !options.Force)
@@ -97,7 +97,6 @@ namespace i3dm.tooling
                 I3dmWriter.Write(i3dmfile, i3dm);
                 Console.WriteLine("I3dm created " + i3dmfile);
             }
-
         }
 
         static void Info(InfoOptions o)
@@ -150,54 +149,62 @@ namespace i3dm.tooling
 
             PrintItems(i3dm.BatchIds, "Batch ids: ");
 
-            var stream = new MemoryStream(i3dm.GlbData);
-            try
+            if(i3dm.I3dmHeader.GltfFormat == 1)
             {
-                var glb = ModelRoot.ReadGLB(stream);
-                Console.WriteLine("glTF model is loaded");
-                Console.WriteLine("glTF generator: " + glb.Asset.Generator);
-                Console.WriteLine("glTF version:" + glb.Asset.Version);
-                Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
-                var triangles = Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
-                Console.WriteLine("glTF triangles: " + triangles.Count);
+                var stream = new MemoryStream(i3dm.GlbData);
+                try
+                {
+                    var glb = ModelRoot.ReadGLB(stream);
+                    Console.WriteLine("glTF model is loaded");
+                    Console.WriteLine("glTF generator: " + glb.Asset.Generator);
+                    Console.WriteLine("glTF version:" + glb.Asset.Version);
+                    Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
+                    var triangles = Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
+                    Console.WriteLine("glTF triangles: " + triangles.Count);
 
-                var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
-                var xmin = (from p in points select p.X).Min();
-                var xmax = (from p in points select p.X).Max();
-                var ymin = (from p in points select p.Y).Min();
-                var ymax = (from p in points select p.Y).Max();
-                var zmin = (from p in points select p.Z).Min();
-                var zmax = (from p in points select p.Z).Max();
+                    var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
+                    var xmin = (from p in points select p.X).Min();
+                    var xmax = (from p in points select p.X).Max();
+                    var ymin = (from p in points select p.Y).Min();
+                    var ymax = (from p in points select p.Y).Max();
+                    var zmin = (from p in points select p.Z).Min();
+                    var zmax = (from p in points select p.Z).Max();
 
-                Console.WriteLine($"Bounding box vertices (xmin, ymin, zmin, xmax, ymax, zmax): {xmin}, {ymin}, {zmin}, {xmax}, {ymax}, {zmax}");
+                    Console.WriteLine($"Bounding box vertices (xmin, ymin, zmin, xmax, ymax, zmax): {xmin}, {ymin}, {zmin}, {xmax}, {ymax}, {zmax}");
 
-                if (glb.ExtensionsUsed != null)
-                {
-                    Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));
-                }
-                else
-                {
-                    Console.WriteLine("glTF: no extensions used.");
-                }
-                if (glb.ExtensionsRequired != null)
-                {
-                    Console.WriteLine("glTF extensions required:" + string.Join(',', glb.ExtensionsRequired));
-                }
-                else
-                {
-                    Console.WriteLine("glTF: no extensions required.");
-                }
+                    if (glb.ExtensionsUsed != null)
+                    {
+                        Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));
+                    }
+                    else
+                    {
+                        Console.WriteLine("glTF: no extensions used.");
+                    }
+                    if (glb.ExtensionsRequired != null)
+                    {
+                        Console.WriteLine("glTF extensions required:" + string.Join(',', glb.ExtensionsRequired));
+                    }
+                    else
+                    {
+                        Console.WriteLine("glTF: no extensions required.");
+                    }
 
-                if (glb.LogicalMeshes[0].Primitives.Count > 0)
+                    if (glb.LogicalMeshes[0].Primitives.Count > 0)
+                    {
+                        Console.WriteLine("glTF primitive mode: " + glb.LogicalMeshes[0].Primitives[0].DrawPrimitiveType);
+                    }
+                }
+                catch (InvalidDataException ex)
                 {
-                    Console.WriteLine("glTF primitive mode: " + glb.LogicalMeshes[0].Primitives[0].DrawPrimitiveType);
+                    Console.WriteLine("glTF version not supported.");
+                    Console.WriteLine(ex.Message);
                 }
             }
-            catch (InvalidDataException ex)
+            else
             {
-                Console.WriteLine("glTF version not supported.");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"glTF external uri: {i3dm.GlbUrl}");
             }
+
             f.Dispose();
         }
 
@@ -224,7 +231,15 @@ namespace i3dm.tooling
             }
             else
             {
-                File.WriteAllBytes(glbfile, i3dm.GlbData);
+                if (i3dm.I3dmHeader.GltfFormat == 0)
+                {
+                    // todo: write to file or something?
+                    Console.WriteLine("external glTF uri:" + i3dm.GlbUrl);
+                }
+                else
+                {
+                    File.WriteAllBytes(glbfile, i3dm.GlbData);
+                }
                 Console.WriteLine($"Glb created: {glbfile}");
                 SaveItems(i3dm.Positions, positionsfile);
                 Console.WriteLine($"Positions file created: {positionsfile}");
