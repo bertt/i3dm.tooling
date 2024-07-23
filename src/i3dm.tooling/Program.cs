@@ -142,6 +142,12 @@ namespace i3dm.tooling
                 Console.WriteLine("Validation check: no errors");
             }
 
+            var firstfive = i3dm.Positions.Take(5);
+            foreach (var item in firstfive)
+            {
+                SpatialConverter.EcefToGeodetic(item.X + i3dm.RtcCenter.Value.X, item.Y + i3dm.RtcCenter.Value.Y, item.Z + i3dm.RtcCenter.Value.Z, out double lat, out double lon, out double h);
+                Console.WriteLine($"Geodetic position:  { lon }, { lat}, { h}");
+            }
 
             PrintItems(i3dm.Positions, "positions ");
             PrintItems(i3dm.NormalUps, "normal ups ");
