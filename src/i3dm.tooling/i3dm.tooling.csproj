@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
@@ -19,9 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="i3dm.tile" Version="0.3.3" />
-    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0019" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="i3dm.tile" Version="1.0.0" />
+    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

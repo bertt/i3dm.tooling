@@ -94,7 +94,8 @@ namespace i3dm.tooling
             }
             else
             {
-                I3dmWriter.Write(i3dmfile, i3dm);
+                var bytes = I3dmWriter.Write(i3dm);
+                File.WriteAllBytes(i3dmfile, bytes);
                 Console.WriteLine("I3dm created " + i3dmfile);
             }
         }
@@ -140,6 +141,7 @@ namespace i3dm.tooling
             {
                 Console.WriteLine("Validation check: no errors");
             }
+
 
             PrintItems(i3dm.Positions, "positions ");
             PrintItems(i3dm.NormalUps, "normal ups ");
