@@ -164,3 +164,6 @@ or update:
 $ dotnet tool update --global --add-source ./nupkg i3dm.tooling
 ```
 
+## History
+
+23-07-2024: release 1.8.0
