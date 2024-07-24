@@ -7,15 +7,15 @@
 	<ToolCommandName>i3dm</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.8</Version>
-    <Authors>Bert Temme</Authors>
+    <Version>1.8.1</Version>
+	<AssemblyVersion>1.8.1.0</AssemblyVersion>
+	<FileVersion>1.8.1.0</FileVersion>
+	<Authors>Bert Temme</Authors>
     <Description>Tooling for pack/unpack/info on i3dm file</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bertt/i3dm.tooling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bertt/i3dm.tooling</RepositoryUrl>
     <PackageReleaseNotes>add i3dm external uri support</PackageReleaseNotes>
-    <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <FileVersion>1.7.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -166,4 +166,6 @@ $ dotnet tool update --global --add-source ./nupkg i3dm.tooling
 
 ## History
 
+24-07-2024: release 1.8.1: print geodedic positions in info
+
 23-07-2024: release 1.8.0

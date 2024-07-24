@@ -145,8 +145,17 @@ namespace i3dm.tooling
             var firstfive = i3dm.Positions.Take(5);
             foreach (var item in firstfive)
             {
-                SpatialConverter.EcefToGeodetic(item.X + i3dm.RtcCenter.Value.X, item.Y + i3dm.RtcCenter.Value.Y, item.Z + i3dm.RtcCenter.Value.Z, out double lat, out double lon, out double h);
-                Console.WriteLine($"Geodetic position:  { lon }, { lat}, { h}");
+                if(
+                    i3dm.RtcCenter != null)
+                {
+                    SpatialConverter.EcefToGeodetic(item.X + i3dm.RtcCenter.Value.X, item.Y + i3dm.RtcCenter.Value.Y, item.Z + i3dm.RtcCenter.Value.Z, out double lat, out double lon, out double h);
+                    Console.WriteLine($"Geodetic position (with rtc_Center):  {lon}, {lat}, {h}");
+                }
+                else
+                {
+                    SpatialConverter.EcefToGeodetic(item.X, item.Y, item.Z, out double lat, out double lon, out double h);
+                    Console.WriteLine($"Geodetic position:  {lon}, {lat}, {h}");
+                }
             }
 
             PrintItems(i3dm.Positions, "positions ");
