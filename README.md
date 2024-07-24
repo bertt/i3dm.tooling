@@ -166,6 +166,8 @@ $ dotnet tool update --global --add-source ./nupkg i3dm.tooling
 
 ## History
 
+2024-07-25: release 1.8.4: fix unpack i3dm with paddding
+
 2024-07-25: release 1.8.3: print external uri info
 
 2024-07-25: release 1.8.2: print padding info
