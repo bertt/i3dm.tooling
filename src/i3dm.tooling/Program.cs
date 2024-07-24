@@ -109,6 +109,7 @@ namespace i3dm.tooling
             var i3dm = I3dmReader.Read(f);
             Console.WriteLine("i3dm header version: " + i3dm.I3dmHeader.Version);
             Console.WriteLine("i3dm GltfFormat: " + i3dm.I3dmHeader.GltfFormat);
+            Console.WriteLine("i3dm has paddding: " + i3dm.HasPadding);
             Console.WriteLine("i3dm header magic: " + i3dm.I3dmHeader.Magic);
             Console.WriteLine("i3dm featuretable json: '" + i3dm.FeatureTableJson + "'");
             Console.WriteLine("i3dm instances length: " + i3dm.FeatureTable.InstancesLength);

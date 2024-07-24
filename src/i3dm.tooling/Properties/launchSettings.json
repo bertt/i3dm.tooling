@@ -2,7 +2,7 @@
   "profiles": {
     "i3dm.tooling": {
       "commandName": "Project",
-      "commandLineArgs": "info -i D:\\dev\\github.com\\geodan\\i3dm.export\\src\\bin\\Debug\\net8.0\\output\\windmolen3\\content\\1_0_0.i3dm"
+      "commandLineArgs": "unpack -i D:\\dev\\github.com\\geodan\\i3dm.export\\src\\bin\\Debug\\net8.0\\output\\windmolen3\\content\\inner_0.i3dm -f"
     }
   }
 }
